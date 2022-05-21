@@ -11,6 +11,10 @@ export default function Home() {
 
   const handleInput = input => {
     var outputVal = `${output}${input}`;
+    if (calculated) {
+      outputVal = input;
+      setCalculated(false);
+    }
     if (outputVal.length > 1 && outputVal[0] == 0) {
       outputVal = outputVal.substring(1);
     }
