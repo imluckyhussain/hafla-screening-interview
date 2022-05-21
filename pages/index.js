@@ -5,26 +5,28 @@ import styles from './home.module.scss';
 
 export default function Home() {
   const btnNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+  const [calculated, setCalculated] = useState(false);
   const [output, setOutput] = useState(0);
   const [addition, setAddition] = useState([]);
 
   const handleInput = input => {
-    var output = input;
-    if (input.length > 1 && input[0] == 0) {
-      output = input.substring(1);
+    var outputVal = `${output}${input}`;
+    if (outputVal.length > 1 && outputVal[0] == 0) {
+      outputVal = outputVal.substring(1);
     }
-    setOutput(output);
+    setOutput(outputVal);
   }
 
   const handleAddition = input => {
-    setAddition([input]);
+    setAddition([...addition, input]);
     setOutput(0);
   }
 
   const handleEquals = input => {
     if (addition.length) {
-      setOutput(addition[0] + input);
+      setOutput(addition.reduce((val1, val2) => (val1 + val2)) + input);
       setAddition([]);
+      setCalculated(true);
     }
   }
 
@@ -41,7 +43,7 @@ export default function Home() {
               className={styles.numKeys}
               variant="outlined"
               color="primary"
-              onClick={() => handleInput(`${output}${num}`)}
+              onClick={() => handleInput(num)}
               key={index}
             >
               {num}
