@@ -1,0 +1,33 @@
+* {
+  font: 1em trebuchet ms, verdana, sans-serif;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  background-color: #fafafa;
+}
+
+div.footerNav{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0.6;
+  transition: ease-in-out 0.25s;
+  background-color: transparent;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .author {
+    max-width: 300px;
+    
+    span {
+      color: #999;
+    }
+  }
+}
