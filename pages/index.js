@@ -21,6 +21,13 @@ export default function Home() {
     setOutput(0);
   }
 
+  const handleEquals = input => {
+    if (addition.length) {
+      setOutput(addition[0] + input);
+      setAddition([]);
+    }
+  }
+
   return (
     <div className={styles.container}>
       <h3 className={styles.heading}>
@@ -47,6 +54,14 @@ export default function Home() {
             onClick={() => handleAddition(parseInt(output))}
           >
             +
+          </Button>
+          <Button
+            className={styles.numKeys}
+            variant="contained"
+            color="primary"
+            onClick={() => handleEquals(parseInt(output))}
+          >
+            =
           </Button>
         </div>
       </div>
