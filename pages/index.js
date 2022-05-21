@@ -20,7 +20,7 @@ export default function Home() {
               className={styles.numKeys}
               variant="contained"
               color="primary"
-              onClick={() => setOutput(num)}
+              onClick={() => setOutput(`${output}${num}`)}
               key={index}
             >
               {num}
