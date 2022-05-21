@@ -31,7 +31,7 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <ThemeProvider theme={lightTheme}>
       <Head>
-        <title>Cynax Ticket App | Mubaraque Hussain</title>
+        <title>Calculator | Hafla | Mubaraque Hussain</title>
         <link rel="icon" href="/MH-Logo.ico" />
       </Head>
 
