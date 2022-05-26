@@ -4,33 +4,119 @@ import CalculateIcon from '@mui/icons-material/Calculate';
 import styles from './home.module.scss';
 
 export default function Home() {
-  const btnNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-  const [calculated, setCalculated] = useState(false);
+  const btns = [
+    {
+      val: 1,
+      task: 'input',
+    },
+    {
+      val: 2,
+      task: 'input',
+    },
+    {
+      val: 3,
+      task: 'input',
+    },
+    {
+      val: 4,
+      task: 'input',
+    },
+    {
+      val: 5,
+      task: 'input',
+    },
+    {
+      val: 6,
+      task: 'input',
+    },
+    {
+      val: 7,
+      task: 'input',
+    },
+    {
+      val: 8,
+      task: 'input',
+    },
+    {
+      val: 9,
+      task: 'input',
+    },
+    {
+      val: 0,
+      task: 'input',
+    },
+    {
+      val: '+',
+      task: 'add',
+    },
+    {
+      val: '✖',
+      task: 'multiply',
+    },
+    {
+      val: '=',
+      task: 'equals',
+    },
+  ];
+
   const [output, setOutput] = useState(0);
-  const [addition, setAddition] = useState([]);
+  const [input, setInput] = useState(0);
+  const [tempInput, setTempInput] = useState(0);
+  const [operation, setOperation] = useState(null);
+  const [calculated, setCalculated] = useState(false);
 
-  const handleInput = input => {
-    var outputVal = `${output}${input}`;
-    if (calculated) {
-      outputVal = input;
-      setCalculated(false);
+  const operations = {
+    add: (v1, v2) => (v1 + v2),
+    multiply: (v1, v2) => (v1 * v2),
+  }
+
+  const handleOperations = task => {
+    if (input && tempInput && operation) {
+      const outputVal = operations[operation](input, parseFloat(tempInput));
+      setInput(outputVal);
+      setOperation(operation);
+      setOutput(outputVal);
+    } else if (tempInput) {
+      setInput(tempInput);
+      setOperation(task);
+      setOutput(0);
     }
+    setCalculated(true);
+  }
+
+  const handleInputs = val => {
+    let outputVal = `${calculated ? '' : output}${val}`;
     if (outputVal.length > 1 && outputVal[0] == 0) {
-      outputVal = outputVal.substring(1);
+      outputVal = parseFloat(outputVal);
     }
+    setTempInput(parseFloat(outputVal));
     setOutput(outputVal);
+    setCalculated(false);
   }
 
-  const handleAddition = input => {
-    setAddition([...addition, input]);
-    setOutput(0);
+  const restartCalculations = () => {
+    setOperation(null);
+    setTempInput(0);
+    setInput(0);
   }
 
-  const handleEquals = input => {
-    if (addition.length) {
-      setOutput(addition.reduce((val1, val2) => (val1 + val2)) + input);
-      setAddition([]);
-      setCalculated(true);
+  const handleCalculations = ({val, task}) => {
+    switch (task) {
+      case 'input':
+        handleInputs(val);
+        break;
+      case 'add':
+        handleOperations(task);
+        break;
+      case 'multiply':
+        handleOperations(task);
+        break;
+      case 'equals':
+        if (operation) {
+          handleOperations(task);
+          restartCalculations();
+        }
+        break;
     }
   }
 
@@ -42,33 +128,17 @@ export default function Home() {
       <div className={styles.calculator}>
         <div className={styles.output}>{output}</div>
         <div>
-          {btnNumbers.map((num, index) => (
+          {btns.map((btn, index) => (
             <Button
               className={styles.numKeys}
-              variant="outlined"
+              variant={btn.task == 'input' ? 'outlined' : 'contained'}
               color="primary"
-              onClick={() => handleInput(num)}
+              onClick={() => handleCalculations(btn)}
               key={index}
             >
-              {num}
+              {btn.val}
             </Button>
           ))}
-          <Button
-            className={styles.numKeys}
-            variant="contained"
-            color="primary"
-            onClick={() => handleAddition(parseInt(output))}
-          >
-            +
-          </Button>
-          <Button
-            className={styles.numKeys}
-            variant="contained"
-            color="primary"
-            onClick={() => handleEquals(parseInt(output))}
-          >
-            =
-          </Button>
         </div>
       </div>
     </div>
