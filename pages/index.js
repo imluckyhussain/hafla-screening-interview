@@ -59,22 +59,22 @@ export default function Home() {
     },
   ];
 
-  const [output, setOutput] = useState(0);
-  const [input, setInput] = useState(0);
-  const [tempInput, setTempInput] = useState(0);
-  const [operation, setOperation] = useState(null);
-  const [calculated, setCalculated] = useState(false);
-
   const operations = {
     add: (v1, v2) => (v1 + v2),
     multiply: (v1, v2) => (v1 * v2),
   }
 
+  const [input, setInput] = useState(0);
+  const [output, setOutput] = useState(0);
+  const [tempInput, setTempInput] = useState(0);
+  const [operation, setOperation] = useState(null);
+  const [calculated, setCalculated] = useState(false);
+
   const handleOperations = task => {
     if (input && tempInput && operation) {
       const outputVal = operations[operation](input, parseFloat(tempInput));
       setInput(outputVal);
-      setOperation(operation);
+      setOperation(task);
       setOutput(outputVal);
     } else if (tempInput) {
       setInput(tempInput);
@@ -105,17 +105,14 @@ export default function Home() {
       case 'input':
         handleInputs(val);
         break;
-      case 'add':
-        handleOperations(task);
-        break;
-      case 'multiply':
-        handleOperations(task);
-        break;
       case 'equals':
         if (operation) {
           handleOperations(task);
           restartCalculations();
         }
+        break;
+      default:
+        handleOperations(task);
         break;
     }
   }
